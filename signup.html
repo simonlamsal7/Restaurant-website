@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up – Maila Dai Ko Mitho Biriyani</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(212,160,23,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 80%, rgba(212,160,23,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .auth-container {
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .auth-logo {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .auth-logo-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 14px rgba(212,160,23,0.6));
+  }
+
+  .auth-logo-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--gold);
+    font-weight: 900;
+  }
+
+  .auth-box {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(212,160,23,0.05);
+  }
+
+  .auth-title {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .auth-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+  }
+
+  .auth-subtitle span {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .input-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 7px;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-wrap i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+    transition: 0.3s;
+  }
+
+  .input-wrap i.toggle-icon {
+    left: auto;
+    right: 15px;
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .input-wrap input {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    background: var(--dark4);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.93rem;
+    outline: none;
+    transition: 0.3s;
+  }
+
+  .input-wrap input::placeholder { color: rgba(168,152,128,0.5); }
+
+  .input-wrap input:focus {
+    border-color: var(--gold);
+    background: var(--dark);
+    box-shadow: 0 0 0 3px rgba(212,160,23,0.1);
+  }
+
+  .input-wrap:focus-within i { color: var(--gold); }
+
+  .input-error {
+    font-size: 0.78rem;
+    color: #E74C3C;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .input-error.show { display: block; }
+
+  /* Password strength */
+  .strength-bar {
+    display: none;
+    margin-top: 8px;
+  }
+
+  .strength-bar.show { display: block; }
+
+  .strength-track {
+    height: 4px;
+    background: var(--dark4);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  .strength-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: 0.4s;
+    width: 0%;
+  }
+
+  .strength-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .terms {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 6px 0 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .terms input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+    accent-color: var(--gold);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .terms a {
+    color: var(--gold);
+    font-weight: 600;
+    transition: 0.3s;
+  }
+
+  .terms a:hover { text-decoration: underline; }
+
+  .auth-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border: none;
+    border-radius: 10px;
+    color: var(--dark);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.35s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .auth-btn:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212,160,23,0.35);
+  }
+
+  .auth-switch {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .auth-switch a {
+    color: var(--gold);
+    font-weight: 700;
+    transition: 0.3s;
+  }
+
+  .auth-switch a:hover { color: var(--gold-light); text-decoration: underline; }
+
+  .back-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 22px;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    transition: 0.3s;
+  }
+
+  .back-home:hover { color: var(--gold); }
+
+  .auth-message {
+    padding: 13px 16px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .auth-message.success {
+    background: rgba(39,174,96,0.15);
+    border: 1px solid rgba(39,174,96,0.4);
+    color: #2ECC71;
+    display: flex;
+  }
+
+  .auth-message.error {
+    background: rgba(231,76,60,0.15);
+    border: 1px solid rgba(231,76,60,0.4);
+    color: #E74C3C;
+    display: flex;
+  }
+
+  @media (max-width: 500px) {
+    .auth-box { padding: 28px 20px; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="auth-container">
+  <div class="auth-logo">
+    <span class="auth-logo-icon">🍛</span>
+    <span class="auth-logo-name">Maila Dai Ko Mitho Biriyani</span>
+  </div>
+
+  <div class="auth-box">
+    <h1 class="auth-title">Create Account</h1>
+    <p class="auth-subtitle">Already have an account? <a href="login.html"><span>Login here</span></a></p>
+
+    <div class="auth-message" id="authMsg"></div>
+
+    <div class="two-col">
+      <div class="input-group">
+        <label class="input-label">First Name</label>
+        <div class="input-wrap">
+          <i class="fas fa-user"></i>
+          <input type="text" id="firstName" placeholder="Ram">
+        </div>
+        <div class="input-error" id="fnErr">Required.</div>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Last Name</label>
+        <div class="input-wrap">
+          <i class="fas fa-user"></i>
+          <input type="text" id="lastName" placeholder="Sharma">
+        </div>
+        <div class="input-error" id="lnErr">Required.</div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Email Address</label>
+      <div class="input-wrap">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="signEmail" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="input-error" id="emailErr">Please enter a valid email address.</div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Phone Number</label>
+      <div class="input-wrap">
+        <i class="fas fa-phone"></i>
+        <input type="tel" id="signPhone" placeholder="+977 98XXXXXXXX">
+      </div>
+      <div class="input-error" id="phoneErr">Please enter a valid phone number.</div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Password</label>
+      <div class="input-wrap">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="signPass" placeholder="Minimum 8 characters" oninput="checkStrength()" autocomplete="new-password">
+        <i class="fas fa-eye toggle-icon" id="toggleSignPass" onclick="togglePwd('signPass','toggleSignPass')"></i>
+      </div>
+      <div class="input-error" id="passErr">Password must be at least 8 characters.</div>
+      <div class="strength-bar" id="strengthBar">
+        <div class="strength-track"><div class="strength-fill" id="strengthFill"></div></div>
+        <span class="strength-label" id="strengthLabel"></span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Confirm Password</label>
+      <div class="input-wrap">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="confirmPass" placeholder="Repeat your password" autocomplete="new-password">
+        <i class="fas fa-eye toggle-icon" id="toggleConfirmPass" onclick="togglePwd('confirmPass','toggleConfirmPass')"></i>
+      </div>
+      <div class="input-error" id="confirmErr">Passwords do not match.</div>
+    </div>
+
+    <label class="terms">
+      <input type="checkbox" id="termsCheck">
+      I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+    </label>
+    <div class="input-error" id="termsErr">You must agree to the terms to continue.</div>
+
+    <button class="auth-btn" onclick="handleSignup()">
+      <i class="fas fa-user-plus"></i> Create My Account
+    </button>
+
+    <div class="auth-switch">
+      Already have an account? <a href="login.html">Login →</a>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-home">
+    <i class="fas fa-arrow-left"></i> Back to Homepage
+  </a>
+</div>
+
+<script>
+  function togglePwd(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+  }
+
+  function checkStrength() {
+    const pass = document.getElementById('signPass').value;
+    const bar = document.getElementById('strengthBar');
+    const fill = document.getElementById('strengthFill');
+    const label = document.getElementById('strengthLabel');
+
+    if (!pass) { bar.classList.remove('show'); return; }
+    bar.classList.add('show');
+
+    let score = 0;
+    if (pass.length >= 8) score++;
+    if (pass.length >= 12) score++;
+    if (/[A-Z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass)) score++;
+    if (/[^A-Za-z0-9]/.test(pass)) score++;
+
+    const levels = [
+      { pct: '20%', color: '#E74C3C', text: 'Very Weak' },
+      { pct: '40%', color: '#E67E22', text: 'Weak' },
+      { pct: '60%', color: '#F39C12', text: 'Fair' },
+      { pct: '80%', color: '#27AE60', text: 'Strong' },
+      { pct: '100%', color: '#2ECC71', text: 'Very Strong' }
+    ];
+
+    const level = levels[Math.min(score - 1, 4)] || levels[0];
+    fill.style.width = level.pct;
+    fill.style.background = level.color;
+    label.textContent = level.text;
+    label.style.color = level.color;
+  }
+
+  function showMsg(type, text) {
+    const el = document.getElementById('authMsg');
+    el.className = 'auth-message ' + type;
+    el.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + text;
+    el.style.display = 'flex';
+    if (type !== 'success') setTimeout(() => el.style.display = 'none', 5000);
+  }
+
+  function setErr(id, show) {
+    document.getElementById(id).classList.toggle('show', show);
+  }
+
+  function handleSignup() {
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('signEmail').value.trim();
+    const phone = document.getElementById('signPhone').value.trim();
+    const pass = document.getElementById('signPass').value;
+    const confirm = document.getElementById('confirmPass').value;
+    const terms = document.getElementById('termsCheck').checked;
+    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let valid = true;
+
+    setErr('fnErr', !fn); if (!fn) valid = false;
+    setErr('lnErr', !ln); if (!ln) valid = false;
+    setErr('emailErr', !emailReg.test(email)); if (!emailReg.test(email)) valid = false;
+    setErr('phoneErr', phone.length < 10); if (phone.length < 10) valid = false;
+    setErr('passErr', pass.length < 8); if (pass.length < 8) valid = false;
+    setErr('confirmErr', pass !== confirm); if (pass !== confirm) valid = false;
+    setErr('termsErr', !terms); if (!terms) valid = false;
+
+    if (!valid) return;
+
+    const users = JSON.parse(localStorage.getItem('biriyaniUsers') || '[]');
+    if (users.find(u => u.email === email)) {
+      showMsg('error', 'An account with this email already exists. Please login.');
+      return;
+    }
+
+    const newUser = {
+      name: fn + ' ' + ln,
+      firstName: fn,
+      lastName: ln,
+      email,
+      phone,
+      password: pass,
+      createdAt: new Date().toISOString()
+    };
+
+    users.push(newUser);
+    localStorage.setItem('biriyaniUsers', JSON.stringify(users));
+    localStorage.setItem('loggedInUser', JSON.stringify(newUser));
+
+    showMsg('success', `Account created! Welcome, ${fn}! Redirecting...`);
+    setTimeout(() => window.location.href = 'index.html', 2000);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSignup();
+  });
+</script>
+</body>
+</html>
